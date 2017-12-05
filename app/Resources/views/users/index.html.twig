@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+  {% if app.user != null %}
+  <table class="table">
+    <caption>List of users</caption>
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">First Name</th>
+        <th scope="col">Last Name</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for user in users %}
+        <tr>
+          <th scope="row">{{ user.getId() }}</th>
+          <td>{{ user.getFirstName() }}</td>
+          <td>{{ user.getLastName() }}</td>
+          <td>
+            <a href="/users/edit/{{ user.getId() }}" class="btn btn-primary">Edit</a>
+            <a href="/users/associate" class="btn btn-success">Associate</a>
+            <a href="/users/delete/{{ user.getId() }}" class="btn btn-danger">Delete</a>
+          </td>
+        </tr>
+      {%  endfor %}
+    </tbody>
+  </table>
+  {% endif %}
+
+  {% if app.user == null %}
+    <a href="/login" class="btn btn-info"> You need to login to see this Page</a>
+  {% endif %}
+
+{% endblock %}
