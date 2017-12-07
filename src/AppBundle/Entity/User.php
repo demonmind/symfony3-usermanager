@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -13,6 +14,20 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class User implements UserInterface
 {
+
+    /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Group", inversedBy="users")
+     * @ORM\JoinTable(name="users_groups",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id", unique=true)} )
+     **/
+    private $groups;
+
+    public function __construct()
+    {
+        $this->groups = new ArrayCollection();
+    }
+
     /**
      * @var int
      *
@@ -155,6 +170,29 @@ class User implements UserInterface
     public function getPassword()
     {
         return $this->password;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGroups()
+    {
+        return $this->groups;
+    }
+
+    public function addGroup(Group $group)
+    {
+        if($this->groups->contains($group)) {
+            return;
+        }
+        $this->groups[] = $group;
+
+        return $this;
+    }
+
+    public function removeGroup(Group $group)
+    {
+        return $this->groups->removeElement($group);
     }
 
     public function getRoles()

@@ -4,6 +4,7 @@
   {% if app.user != null %}
   <table class="table">
     <caption>List of users</caption>
+    <a href="{{ path('usercreate') }}" class="btn btn-info"> + New User</a>
     <thead>
       <tr>
         <th scope="col">#</th>
@@ -20,7 +21,7 @@
           <td>{{ user.getLastName() }}</td>
           <td>
             <a href="/users/edit/{{ user.getId() }}" class="btn btn-primary">Edit</a>
-            <a href="/users/associate" class="btn btn-success">Associate</a>
+            <a href="/users/associate/{{ user.getId() }}" class="btn btn-success">Associate</a>
             <a href="/users/delete/{{ user.getId() }}" class="btn btn-danger">Delete</a>
           </td>
         </tr>

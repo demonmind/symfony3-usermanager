@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>{{ group.getName() }}</h1>
+    <table class="table">
+        <caption>Group Users</caption>
+        <thead>
+        <tr>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for group_user in group.getUsers() %}
+            <tr>
+                <th scope="row">{{ group_user.getFirstName() }}</th>
+                <th scope="row">{{ group_user.getLastName() }}</th>
+                <th scope="row">
+                    <a href="/users/removefromgroup/{{ group.getId() }}/{{ group_user.getId() }}" class="btn btn-danger">Remove</a>
+                </th>
+            </tr>
+        {%  endfor %}
+        </tbody>
+    </table>
+{% endblock %}

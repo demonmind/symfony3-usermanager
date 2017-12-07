@@ -1,5 +1,27 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-  Groups Index
+    <table class="table">
+       <caption>List of users</caption>
+       <a href="{{ path('groupcreate') }}" class="btn btn-success"> + Add Group</a>
+       <thead>
+       <tr>
+         <th scope="col">Name</th>
+         <th scope="col">Actions</th>
+       </tr>
+       </thead>
+       <tbody>
+       {% for group in groups %}
+         <tr>
+           <th scope="row">{{ group.getName() }}</th>
+           <td>
+             <a href="/groups/{{ group.getId() }}" class="btn btn-success">Show</a>
+               {% if group.users.count() == 0 %}
+                 <a href="/groups/delete/{{ group.getId() }}" class="btn btn-danger">Delete</a>
+               {% endif %}
+           </td>
+         </tr>
+       {%  endfor %}
+       </tbody>
+     </table>
 {% endblock %}

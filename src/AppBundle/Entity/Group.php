@@ -2,16 +2,32 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * UserGroup
+ * Group
  *
- * @ORM\Table(name="user_group")
+ * @ORM\Table(name="groups")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserGroupRepository")
  */
-class UserGroup
+class Group
 {
+    /**
+     * Many Groups have Many Users.
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", mappedBy="groups")
+     */
+    private $users;
+
+
+    /**
+     * @return mixed
+     */
+    public function __construct()
+    {
+        $this->users = new ArrayCollection();
+    }
+
     /**
      * @var int
      *
@@ -44,7 +60,7 @@ class UserGroup
      *
      * @param string $name
      *
-     * @return UserGroup
+     * @return Group
      */
     public function setName($name)
     {
@@ -61,6 +77,30 @@ class UserGroup
     public function getName()
     {
         return $this->name;
+    }
+
+
+    /**
+     * Get users
+     *
+     * @return ArrayCollection
+     */
+    public function getUsers()
+    {
+        return $this->users;
+    }
+
+    /**
+     * @param mixed $users
+     */
+    public function addUser(User $user)
+    {
+        if($this->users->contains($user)) {
+            return;
+        }
+        $this->users[] = $user;
+
+        return $this;
     }
 }
 
